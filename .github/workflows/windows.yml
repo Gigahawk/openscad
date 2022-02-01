@@ -2,8 +2,6 @@ name: windows
 
 on:
   push:
-    branches:
-      - master
   pull_request:
 
 jobs:
@@ -30,6 +28,11 @@ jobs:
           mkdir build && cd build
           cmake .. -G"MSYS Makefiles" -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DEXPERIMENTAL=ON -DSNAPSHOT=ON
           mingw32-make.exe -j2
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: Build (Windows)
+          path: build
       - name: Run Test Suite
         run: |
           cd build
